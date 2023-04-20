@@ -422,7 +422,7 @@ class ElasticsearchEQLBackend(DeepFieldMappingMixin, ElasticsearchWildcardHandli
     mapExpression = "%s : %s"
     mapListsSpecialHandling = False
     mapListValueExpression = "%s : %s"
-    reEscape = re.compile('(["\\\\])')
+    reEscape = re.compile(r"([\"]|(?<!\\)\\(?![*\\])|\\u|&&|\|\|)")
 
     sort_condition_lists = True
 
