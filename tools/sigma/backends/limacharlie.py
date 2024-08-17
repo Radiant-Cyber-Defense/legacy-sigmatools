@@ -155,7 +155,7 @@ _allFieldMappings = {
         #Testing the addition of registry_event
         "windows/registry/registry_event/": SigmaLCConfig(
             topLevelParams = {
-                "event": "REGISTRY_WRITE 
+                "event": "REGISTRY_WRITE", 
             },
             preConditions = {
                 "op": "is windows",
