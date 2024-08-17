@@ -153,7 +153,7 @@ _allFieldMappings = {
             isCaseSensitive = []
         ),
         #Testing the addition of registry_event
-        "windows/registry/registry_event/": SigmaLCConfig(
+        "windows/registry_event/": SigmaLCConfig(
             topLevelParams = {
                 "event": "REGISTRY_WRITE", 
             },
