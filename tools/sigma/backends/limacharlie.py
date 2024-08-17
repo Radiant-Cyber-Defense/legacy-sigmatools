@@ -152,6 +152,25 @@ _allFieldMappings = {
             postOpMapper = None,
             isCaseSensitive = []
         ),
+        #Testing the addition of registry_event
+        "windows/registry/registry_event/": SigmaLCConfig(
+            topLevelParams = {
+                "event": "REGISTRY_WRITE 
+            },
+            preConditions = {
+                "op": "is windows",
+            },
+            fieldMappings = {
+                "TargetObject": "event/REGISTRY_KEY",
+                "Details": "event/REGISTRY_VALUE",
+                "ParentImage": "event/PARENT/FILE_PATH",
+            },
+            isAllStringValues = False,
+            keywordField = None,
+            postOpMapper = None,
+            isCaseSensitive = []
+        ),
+        #end registry_event test
         "dns//": SigmaLCConfig(
             topLevelParams = {
                 "event": "DNS_REQUEST",
