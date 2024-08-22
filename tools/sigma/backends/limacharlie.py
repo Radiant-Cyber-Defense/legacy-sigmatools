@@ -158,8 +158,7 @@ _allFieldMappings = {
                 "event": "WEL", 
             },
             preConditions = {
-                "op": "and",
-                "rules": [
+                [
                     {
                         "op": "is windows",
                     },
