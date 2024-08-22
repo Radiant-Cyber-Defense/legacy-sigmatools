@@ -156,6 +156,8 @@ _allFieldMappings = {
         "windows/registry_event/": SigmaLCConfig(
             topLevelParams = {
                 "event": "WEL",
+            },
+            preConditions = {
                 "op": "and",
                 "rules": [
                     {
@@ -166,12 +168,9 @@ _allFieldMappings = {
                     {
                         "op": "is",
                         "path": "event/EVENT/System/EventID",
-                        "value": 13
+                        "value": "13"
                     }
                 ]
-            },
-            preConditions = {
-                "op": "is windows",
             },
             fieldMappings = {
                 "TargetObject": "event/EVENT/EventData/TargetObject",
