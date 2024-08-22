@@ -158,9 +158,7 @@ _allFieldMappings = {
                 "event": "WEL", 
             },
             preConditions = {
-                "op: is",
-                "path: event/EVENT/System/Channel",
-                "value: 'Microsoft-Windows-Sysmon/Operational'",
+                "op": "is windows",
             },
             fieldMappings = {
                 "TargetObject": "event/EVENT/EventData/TargetObject",
