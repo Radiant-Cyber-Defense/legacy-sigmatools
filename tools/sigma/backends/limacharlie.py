@@ -166,9 +166,24 @@ _allFieldMappings = {
                         "value": "Microsoft-Windows-Sysmon/Operational"
                     },
                     {
-                        "op": "is",
-                        "path": "event/EVENT/System/EventID",
-                        "value": "13"
+                        "op": "or",
+                        "rules": [
+                            {
+                                "op": "is",
+                                "path": "event/EVENT/System/EventID",
+                                "value": "12"
+                            },
+                            {
+                                "op": "is",
+                                "path": "event/EVENT/System/EventID",
+                                "value": "13"
+                            },
+                            {
+                                "op": "is",
+                                "path": "event/EVENT/System/EventID",
+                                "value": "14"
+                            }
+                        ]
                     }
                 ]
             },
