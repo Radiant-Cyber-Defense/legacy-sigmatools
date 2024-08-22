@@ -155,15 +155,18 @@ _allFieldMappings = {
         #Testing the addition of registry_event
         "windows/registry_event/": SigmaLCConfig(
             topLevelParams = {
-                "event": "REGISTRY_WRITE", 
+                "event": "WEL", 
             },
             preConditions = {
-                "op": "is windows",
+                "op: is",
+                "path: event/EVENT/System/Channel",
+                "value: 'Microsoft-Windows-Sysmon/Operational'",
             },
             fieldMappings = {
-                "TargetObject": "event/REGISTRY_KEY",
-                "Details": "event/REGISTRY_VALUE",
-                "ParentImage": "event/PARENT/FILE_PATH",
+                "TargetObject": "event/EVENT/EventData/TargetObject",
+                "Details": "event/EVENT/EventData/Details",
+                "Image": "event/EVENT/EventData/Image",
+                "EventType": "event/EVENT/EventData/EventType",
             },
             isAllStringValues = False,
             keywordField = None,
