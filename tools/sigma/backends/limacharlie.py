@@ -158,7 +158,6 @@ _allFieldMappings = {
                 "event": "WEL", 
             },
             preConditions = {
-                [
                     {
                         "op": "is windows",
                     },
@@ -167,7 +166,6 @@ _allFieldMappings = {
                         "path": "event/EVENT/System/EventID",
                         "value": 13
                     }
-                ]
             },
             fieldMappings = {
                 "TargetObject": "event/EVENT/EventData/TargetObject",
