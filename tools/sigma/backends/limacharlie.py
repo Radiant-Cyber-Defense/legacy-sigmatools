@@ -192,6 +192,7 @@ _allFieldMappings = {
                 "Details": "event/EVENT/EventData/Details",
                 "Image": "event/EVENT/EventData/Image",
                 "EventType": "event/EVENT/EventData/EventType",
+                "NewName": "event/EVENT/EventData/NewName",
             },
             isAllStringValues = False,
             keywordField = None,
