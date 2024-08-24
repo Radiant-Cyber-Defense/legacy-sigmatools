@@ -152,7 +152,7 @@ _allFieldMappings = {
             postOpMapper = None,
             isCaseSensitive = []
         ),
-        #Testing the addition of registry_event
+        #Adding registry_event
         "windows/registry_event/": SigmaLCConfig(
             topLevelParams = {
                 "event": "WEL",
@@ -193,13 +193,47 @@ _allFieldMappings = {
                 "Image": "event/EVENT/EventData/Image",
                 "EventType": "event/EVENT/EventData/EventType",
                 "NewName": "event/EVENT/EventData/NewName",
+                "ProcessGuid": "event/EVENT/EventData/ProcessGuid",
+                "ProcessId": "event/EVENT/EventData/ProcessId",
             },
             isAllStringValues = False,
             keywordField = None,
             postOpMapper = None,
             isCaseSensitive = []
         ),
-        #end registry_event test
+        #Adding registry_set
+        "windows/registry_set/": SigmaLCConfig(
+            topLevelParams = {
+                "event": "WEL",
+            },
+            preConditions = {
+                "op": "and",
+                "rules": [
+                    {
+                        "op": "is",
+                        "path": "event/EVENT/System/Channel",
+                        "value": "Microsoft-Windows-Sysmon/Operational"
+                    },
+                    {
+                        "op": "is",
+                        "path": "event/EVENT/System/EventID",
+                        "value": "13"
+                    }
+                ]
+            },
+            fieldMappings = {
+                "TargetObject": "event/EVENT/EventData/TargetObject",
+                "Details": "event/EVENT/EventData/Details",
+                "Image": "event/EVENT/EventData/Image",
+                "EventType": "event/EVENT/EventData/EventType",
+                "ProcessGuid": "event/EVENT/EventData/ProcessGuid",
+                "ProcessId": "event/EVENT/EventData/ProcessId",
+            },
+            isAllStringValues = False,
+            keywordField = None,
+            postOpMapper = None,
+            isCaseSensitive = []
+        ),
         "dns//": SigmaLCConfig(
             topLevelParams = {
                 "event": "DNS_REQUEST",
