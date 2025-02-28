@@ -33,6 +33,24 @@ def _windowsEventLogEDRFieldName(fieldName):
         return 'event/EVENT/System/EventID'
     return 'event/EVENT/EventData/%s' % (fieldName,)
 
+def _mapProcessAccessOperations(node):
+    """Handle path normalization for both source and target processes"""
+    # Apply same path fixup to SourceImage (initiating process)
+    if (node["op"] == "starts with" and 
+        node["path"] in ["event/SOURCE/FILE_PATH", "event/TARGET/FILE_PATH"] and
+        node["value"].lower().startswith("c:\\")):
+        
+        node["op"] = "matches"
+        node["re"] = f"^(?:(?:.:)|(?:\\\\Device\\\\HarddiskVolume.))\\\\{re.escape(node['value'][3:])}"
+        del node["value"]
+
+    # Additional process access specific normalization
+    if node["path"] == "event/GRANTED_ACCESS" and isinstance(node["value"], int):
+        # Convert numeric access rights to hex format if needed
+        node["value"] = hex(node["value"])
+    
+    return node
+    
 def _mapProcessCreationOperations(node):
     # Here we fix some common pitfalls found in rules
     # in a consistent fashion (already processed to D&R rule).
