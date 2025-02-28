@@ -32,24 +32,6 @@ def _windowsEventLogEDRFieldName(fieldName):
     if 'EventID' == fieldName:
         return 'event/EVENT/System/EventID'
     return 'event/EVENT/EventData/%s' % (fieldName,)
-
-def _mapProcessAccessOperations(node):
-    """Handle path normalization for both source and target processes"""
-    # Apply same path fixup to SourceImage (initiating process)
-    if (node["op"] == "starts with" and 
-        node["path"] in ["event/SOURCE/FILE_PATH", "event/TARGET/FILE_PATH"] and
-        node["value"].lower().startswith("c:\\")):
-        
-        node["op"] = "matches"
-        node["re"] = f"^(?:(?:.:)|(?:\\\\Device\\\\HarddiskVolume.))\\\\{re.escape(node['value'][3:])}"
-        del node["value"]
-
-    # Additional process access specific normalization
-    if node["path"] == "event/GRANTED_ACCESS" and isinstance(node["value"], int):
-        # Convert numeric access rights to hex format if needed
-        node["value"] = hex(node["value"])
-    
-    return node
     
 def _mapProcessCreationOperations(node):
     # Here we fix some common pitfalls found in rules
@@ -125,38 +107,6 @@ _allFieldMappings = {
             isAllStringValues = True,
             keywordField = None,
             postOpMapper = None,
-            isCaseSensitive = []
-        ),
-        "windows/process_access/": SigmaLCConfig(
-            topLevelParams = {
-                "events": [
-                    "PROCESS_ACCESS",  # Primary event type for process access operations
-                ]
-            },
-            preConditions = {
-                "op": "is windows",  # Maintain Windows-specific precondition
-            },
-            fieldMappings = {
-                # Source process fields
-                "SourceImage": "event/SOURCE/FILE_PATH",
-                "SourceProcessGUID": "event/SOURCE/PROCESS_GUID",
-                "SourceProcessId": "event/SOURCE/PROCESS_ID",
-                "SourceThreadId": "event/SOURCE/THREAD_ID",
-                "SourceUser": "event/SOURCE/USER_NAME",
-                
-                # Target process fields
-                "TargetImage": "event/TARGET/FILE_PATH",
-                "TargetProcessGUID": "event/TARGET/PROCESS_GUID",
-                "TargetProcessId": "event/TARGET/PROCESS_ID",
-                "TargetUser": "event/TARGET/USER_NAME",
-                
-                # Access-specific fields
-                "GrantedAccess": "event/GRANTED_ACCESS",
-                "CallTrace": "event/CALL_TRACE"
-            },
-            isAllStringValues = False,
-            keywordField = "event/GRANTED_ACCESS",  # Primary field for access pattern matching
-            postOpMapper = _mapProcessAccessOperations,  # Custom mapping function placeholder
             isCaseSensitive = []
         ),
         "windows/process_creation/": SigmaLCConfig(
