@@ -109,6 +109,38 @@ _allFieldMappings = {
             postOpMapper = None,
             isCaseSensitive = []
         ),
+        "windows/process_access/": SigmaLCConfig(
+            topLevelParams = {
+                "events": [
+                    "PROCESS_ACCESS",  # Primary event type for process access operations
+                ]
+            },
+            preConditions = {
+                "op": "is windows",  # Maintain Windows-specific precondition
+            },
+            fieldMappings = {
+                # Source process fields
+                "SourceImage": "event/SOURCE/FILE_PATH",
+                "SourceProcessGUID": "event/SOURCE/PROCESS_GUID",
+                "SourceProcessId": "event/SOURCE/PROCESS_ID",
+                "SourceThreadId": "event/SOURCE/THREAD_ID",
+                "SourceUser": "event/SOURCE/USER_NAME",
+                
+                # Target process fields
+                "TargetImage": "event/TARGET/FILE_PATH",
+                "TargetProcessGUID": "event/TARGET/PROCESS_GUID",
+                "TargetProcessId": "event/TARGET/PROCESS_ID",
+                "TargetUser": "event/TARGET/USER_NAME",
+                
+                # Access-specific fields
+                "GrantedAccess": "event/GRANTED_ACCESS",
+                "CallTrace": "event/CALL_TRACE"
+            },
+            isAllStringValues = False,
+            keywordField = "event/GRANTED_ACCESS",  # Primary field for access pattern matching
+            postOpMapper = _mapProcessAccessOperations,  # Custom mapping function placeholder
+            isCaseSensitive = []
+        ),
         "windows/process_creation/": SigmaLCConfig(
             topLevelParams = {
                 "events": [
