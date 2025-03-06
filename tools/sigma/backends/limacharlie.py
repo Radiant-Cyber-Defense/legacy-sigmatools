@@ -138,6 +138,44 @@ _allFieldMappings = {
             postOpMapper = _mapProcessCreationOperations,
             isCaseSensitive = []
         ),
+        # Adding Process Access - Julian
+        "windows/process_access/": SigmaLCConfig(
+            topLevelParams = {
+                "event": "WEL",
+            },
+            preConditions = {
+                "op": "and",
+                "rules": [
+                    {
+                        "op": "is",
+                        "path": "event/EVENT/System/Channel",
+                        "value": "Microsoft-Windows-Sysmon/Operational"
+                    },
+                    {
+                        "op": "is",
+                        "path": "event/EVENT/System/EventID",
+                        "value": "10"
+                    }
+                ]
+            },
+            fieldMappings = {
+                "CallTrace": "event/EVENT/EventData/CallTrace",
+                "GrantedAccess": "event/EVENT/EventData/GrantedAccess",
+                "SourceImage": "event/EVENT/EventData/SourceImage",
+                "SourceProcessGUID": "event/EVENT/EventData/SourceProcessGUID",
+                "SourceProcessId": "event/EVENT/EventData/SourceProcessId",
+                "SourceThreadId": "event/EVENT/EventData/SourceThreadId",
+                "SourceUser": "event/EVENT/EventData/SourceUser",
+                "TargetImage": "event/EVENT/EventData/TargetImage",
+                "TargetProcessGUID": "event/EVENT/EventData/TargetProcessGUID",
+                "TargetProcessId": "event/EVENT/EventData/TargetProcessId",
+                "TargetUser": "event/EVENT/EventData/TargetUser",
+            },
+            isAllStringValues = False,
+            keywordField = None,
+            postOpMapper = None,
+            isCaseSensitive = []
+        ),
         "windows/dns_query/": SigmaLCConfig(
             topLevelParams = {
                 "event": "DNS_REQUEST",
